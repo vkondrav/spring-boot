@@ -1,0 +1,28 @@
+services:
+  accounts:
+    image: vkondrav/accounts:v1
+    container_name: accounts_service
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+
+  cards:
+    image: vkondrav/cards:v1
+    container_name: cards_service
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+
+  loans:
+    image: vkondrav/loans:v1
+    container_name: loans_service
+    ports:
+      - "8090:8090"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

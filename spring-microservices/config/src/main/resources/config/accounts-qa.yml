@@ -1,0 +1,15 @@
+build:
+  version: "v1-qa"
+contact:
+  message: "Welcome to Accounts Service(QA) - Updated"
+  contactDetails:
+    name: "John Doe"
+    email: "john.doe@email.com"
+    phone: "123-456-7890"
+  onCall:
+    - name: "Jane Doe"
+      email: "jane.doe@email.com"
+      phone: "123-456-7890"
+    - name: "John Smith"
+      email: "john.smith@email.com"
+      phone: "098-765-4321"

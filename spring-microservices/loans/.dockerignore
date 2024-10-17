@@ -1,0 +1,34 @@
+# Ignore Gradle build files
+.gradle
+build
+out
+
+# Ignore IntelliJ IDEA project files
+.idea
+*.iml
+
+# Ignore local environment files
+.env
+*.env
+
+# Ignore logs
+*.log
+logs
+*.log.*
+
+# Ignore temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore other unnecessary files
+*.class
+*.jar
+*.war
+*.ear
