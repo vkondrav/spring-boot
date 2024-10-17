@@ -13,3 +13,6 @@ contact:
     - name: "John Smith"
       email: "john.smith@email.com"
       phone: "098-765-4321"
+    - name: "Test"
+      email: "john.smith@email.com"
+      phone: "098-765-4321"
