@@ -1,9 +1,9 @@
 build:
-  version: "v1-dev-test-4"
+  version: "v1-dev"
 contact:
   message: "Welcome to Accounts Service(Dev) OK"
   contactDetails:
-    name: "John Doe"
+    name: "John Doe - 2"
     email: "john.doe@email.com"
     phone: "123-456-7890"
   onCall:
