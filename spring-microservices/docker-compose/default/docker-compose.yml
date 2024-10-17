@@ -1,0 +1,102 @@
+services:
+
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+    healthcheck:
+      test: "rabbitmq-diagnostics check_port_connectivity"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  config:
+    image: vkondrav/config:v1
+    container_name: config_service
+    ports:
+      - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8071/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+
+  hookdeck:
+    image: hookdeck/hookdeck-cli
+    container_name: hookdeck
+    networks:
+      - backend
+    entrypoint: [ "/bin/sh","-c" ]
+    command:
+    - |
+      bin/hookdeck login
+      bin/hookdeck listen http://host.docker.internal:8071 github-spring
+    depends_on:
+      - config
+    volumes:
+      - ~/.config/hookdeck:/root/.config/hookdeck
+
+  accounts:
+    image: vkondrav/accounts:v1
+    container_name: accounts_service
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+    depends_on:
+      config:
+        condition: service_healthy
+
+  cards:
+    image: vkondrav/cards:v1
+    container_name: cards_service
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+    depends_on:
+      config:
+        condition: service_healthy
+
+  loans:
+    image: vkondrav/loans:v1
+    container_name: loans_service
+    ports:
+      - "8090:8090"
+    networks:
+      - backend
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+    depends_on:
+      config:
+        condition: service_healthy
+
+networks:
+  backend:
+    driver: "bridge"
