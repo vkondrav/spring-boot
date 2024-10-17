@@ -1,5 +1,5 @@
 build:
-  version: "v1-dev-test"
+  version: "v1-dev-test-2"
 contact:
   message: "Welcome to Accounts Service(Dev) OK"
   contactDetails:
