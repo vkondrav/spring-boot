@@ -1,7 +1,7 @@
 build:
   version: "v1-dev"
 contact:
-  message: "Welcome to Accounts Service(Dev)"
+  message: "Welcome to Accounts Service(Dev) OK"
   contactDetails:
     name: "John Doe"
     email: "john.doe@email.com"
@@ -11,9 +11,6 @@ contact:
       email: "jane.doe@email.com"
       phone: "123-456-7890"
     - name: "John Smith"
-      email: "john.smith@email.com"
-      phone: "098-765-4321"
-    - name: "Vitaliy"
       email: "john.smith@email.com"
       phone: "098-765-4321"
 
