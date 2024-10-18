@@ -4,11 +4,11 @@ import jakarta.persistence.*
 import org.springframework.stereotype.Component
 import kotlin.random.Random
 
-@Entity
+@Entity(name = "loans")
 data class Loan(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val loanId: Long,
+    val loanId: Long = 0L,
     @Column(name = "mobile_number")
     val mobileNumber: String,
     @Column(name = "loan_number")
@@ -26,7 +26,6 @@ data class Loan(
     @Component
     class Builder {
         operator fun invoke(mobileNumber: String) = Loan(
-            loanId = 0,
             mobileNumber = mobileNumber,
             loanNumber = generateRandomLoanNumber(),
             loanType = "MORTGAGE",

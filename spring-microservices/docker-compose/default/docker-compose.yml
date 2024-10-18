@@ -54,6 +54,12 @@ services:
     container_name: accounts_service
     ports:
       - "8081:8081"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8081/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       - backend
     environment:
@@ -61,15 +67,46 @@ services:
       SPRING_PROFILES_ACTIVE: "default"
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_RABBITMQ_HOST: "rabbitmq"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
     depends_on:
       config:
         condition: service_healthy
+      accountsdb:
+        condition: service_healthy
+
+  accountsdb:
+    image: mysql:8.0
+    container_name: accountsdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: accountsdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_TCP_PORT: 3306
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+    healthcheck:
+      test: "mysqladmin ping -h localhost"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    volumes:
+      - accountsdb_data:/var/lib/mysql
 
   cards:
     image: vkondrav/cards:v1
     container_name: cards_service
     ports:
       - "9000:9000"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:9000/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       - backend
     environment:
@@ -77,15 +114,44 @@ services:
       SPRING_PROFILES_ACTIVE: "default"
       SPRING_APPLICATION_NAME: "cards"
       SPRING_RABBITMQ_HOST: "rabbitmq"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3307/cardsdb"
     depends_on:
       config:
         condition: service_healthy
+
+  cardsdb:
+    image: mysql:8.0
+    container_name: cardsdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cardsdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - "3307:3306"
+    networks:
+      - backend
+    healthcheck:
+      test: "mysqladmin ping -h localhost"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    volumes:
+      - cardsdb_data:/var/lib/mysql
 
   loans:
     image: vkondrav/loans:v1
     container_name: loans_service
     ports:
       - "8090:8090"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8090/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       - backend
     environment:
@@ -93,10 +159,38 @@ services:
       SPRING_PROFILES_ACTIVE: "default"
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_RABBITMQ_HOST: "rabbitmq"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3308/loansdb"
     depends_on:
       config:
         condition: service_healthy
 
+  loansdb:
+    image: mysql:8.0
+    container_name: loansdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: loansdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_TCP_PORT: 3308
+    ports:
+      - "3308:3306"
+    networks:
+      - backend
+    healthcheck:
+      test: "mysqladmin ping -h localhost"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    volumes:
+      - loansdb_data:/var/lib/mysql
+
 networks:
   backend:
     driver: "bridge"
+
+volumes:
+  accountsdb_data:
+  cardsdb_data:
+  loansdb_data:

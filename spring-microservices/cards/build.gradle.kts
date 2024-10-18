@@ -1,6 +1,6 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
+	id("org.jetbrains.kotlin.plugin.spring") version "2.0.21"
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 	id("com.google.cloud.tools.jib") version "3.4.2"
@@ -32,9 +32,9 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+	implementation("mysql:mysql-connector-java:8.0.33")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

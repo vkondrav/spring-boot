@@ -6,11 +6,11 @@ import jakarta.persistence.Id
 import org.springframework.stereotype.Component
 import kotlin.random.Random
 
-@Entity
+@Entity(name = "accounts")
 data class Account(
     @Id
     @Column(name = "account_number")
-    val accountNumber: Long,
+    val accountNumber: Long = 0L,
     @Column(name = "customer_id")
     val customerId: Long,
     @Column(name = "account_type")
@@ -38,7 +38,6 @@ data class Account(
         )
 
         operator fun invoke(customer: Customer) = Account(
-            accountNumber = Random.nextLong(1_000_000_000_000, 9_999_999_999_999),
             customerId = customer.customerId,
             accountType = accountTypes.random(),
             branchAddress = addresses.random()

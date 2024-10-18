@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
-@Entity
+@Entity(name = "customers")
 data class Customer(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

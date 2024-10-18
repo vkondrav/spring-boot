@@ -4,11 +4,11 @@ import jakarta.persistence.*
 import org.springframework.stereotype.Component
 import kotlin.random.Random
 
-@Entity
+@Entity(name = "cards")
 data class Card(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val cardId: Long,
+    val cardId: Long = 0L,
     @Column(name = "mobile_number")
     val mobileNumber: String,
     @Column(name = "card_number")
@@ -26,7 +26,6 @@ data class Card(
     @Component
     class Builder {
         operator fun invoke(mobileNumber: String) = Card(
-            cardId = 0,
             mobileNumber = mobileNumber,
             cardNumber = generateRandomCardNumber(),
             cardType = "VISA",

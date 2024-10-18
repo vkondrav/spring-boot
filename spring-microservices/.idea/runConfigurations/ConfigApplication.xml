@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ConfigApplication" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="com.micro.config.ConfigApplicationKt" />
+    <module name="config.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
