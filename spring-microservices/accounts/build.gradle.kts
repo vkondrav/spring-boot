@@ -1,10 +1,11 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
+	kotlin("plugin.jpa") version "1.9.25"
 	id("org.jetbrains.kotlin.plugin.spring") version "2.0.21"
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 	id("com.google.cloud.tools.jib") version "3.4.2"
-	kotlin("plugin.jpa") version "1.9.25"
+	id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
 }
 
 group = "com.micro"
@@ -33,6 +34,10 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
 	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("com.h2database:h2")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -60,4 +65,11 @@ jib {
 	to {
 		image = "vkondrav/${project.name}:${project.version}"
 	}
+}
+
+openApi {
+	apiDocsUrl.set("http://localhost:8081/v3/api-docs")
+	outputDir.set(file("$projectDir/openapi"))
+	outputFileName.set("openapi-schema.json")
+	waitTimeInSeconds.set(10)
 }

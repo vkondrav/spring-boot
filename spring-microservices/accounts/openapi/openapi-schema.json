@@ -1,0 +1,677 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Accounts API",
+    "description": "Accounts API",
+    "contact": {
+      "name": "Accounts Microservice Team",
+      "email": "account@microservices.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "externalDocs": {
+    "description": "Accounts Wiki",
+    "url": "https://wiki.microservices.com/accounts"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Customers API",
+      "description": "Customers API"
+    },
+    {
+      "name": "Accounts API",
+      "description": "Accounts API"
+    }
+  ],
+  "paths": {
+    "/api/update": {
+      "put": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Update an account",
+        "operationId": "updateAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "304": {
+            "description": "Account not updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Account updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/create": {
+      "post": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Create an account",
+        "operationId": "createAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Account created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer Already Exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fetch": {
+      "get": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Fetch account details by mobile number",
+        "operationId": "fetchAccountDetails",
+        "parameters": [
+          {
+            "name": "mobileNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchCustomerDetails": {
+      "get": {
+        "tags": [
+          "Customers API"
+        ],
+        "summary": "Fetch customer details by mobile number",
+        "operationId": "fetchCustomerDetails",
+        "parameters": [
+          {
+            "name": "mobileNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Customer details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer Details"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact-info": {
+      "get": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Get contact info",
+        "operationId": "getContactInfo",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Contact Info fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactInfoDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact info not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/build-info": {
+      "get": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Get build info",
+        "operationId": "getBuildInfo",
+        "responses": {
+          "200": {
+            "description": "Build info fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Build info not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/delete": {
+      "delete": {
+        "tags": [
+          "Accounts API"
+        ],
+        "summary": "Delete an account",
+        "operationId": "deleteAccount",
+        "parameters": [
+          {
+            "name": "mobileNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Account deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Account not deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "required": [
+          "accountNumber",
+          "accountType",
+          "branchAddress"
+        ],
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "integer",
+            "description": "Account number",
+            "format": "int64"
+          },
+          "accountType": {
+            "type": "string",
+            "description": "Account type",
+            "example": "Savings"
+          },
+          "branchAddress": {
+            "type": "string",
+            "description": "Branch address",
+            "example": "123 Main St, City, Country"
+          }
+        },
+        "description": "Account details"
+      },
+      "Customer": {
+        "required": [
+          "email",
+          "mobileNumber",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string",
+            "description": "Customer name",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer email",
+            "example": "john.doe@email.com"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "description": "Customer mobile number",
+            "example": "+1234567890"
+          },
+          "accountDto": {
+            "$ref": "#/components/schemas/Account"
+          }
+        },
+        "description": "Customer details"
+      },
+      "ErrorResponse": {
+        "required": [
+          "apiPath",
+          "code",
+          "message",
+          "time"
+        ],
+        "type": "object",
+        "properties": {
+          "apiPath": {
+            "type": "string",
+            "description": "API path"
+          },
+          "code": {
+            "type": "string",
+            "description": "HTTP status code",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Failure response information"
+      },
+      "Response": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Success response information"
+      },
+      "Cards": {
+        "required": [
+          "amountPaid",
+          "loanNumber",
+          "loanType",
+          "mobileNumber",
+          "outstandingAmount",
+          "totalLoan"
+        ],
+        "type": "object",
+        "properties": {
+          "mobileNumber": {
+            "type": "string",
+            "description": "Mobile Number of Customer",
+            "example": "4354437687"
+          },
+          "loanNumber": {
+            "type": "integer",
+            "description": "Loan Number of the customer",
+            "format": "int64",
+            "example": 548732457654
+          },
+          "loanType": {
+            "type": "string",
+            "description": "Type of the loan",
+            "example": "Home Loan"
+          },
+          "totalLoan": {
+            "type": "integer",
+            "description": "Total loan amount",
+            "format": "int32",
+            "example": 100000
+          },
+          "amountPaid": {
+            "type": "integer",
+            "description": "Total loan amount paid",
+            "format": "int32",
+            "example": 1000
+          },
+          "outstandingAmount": {
+            "type": "integer",
+            "description": "Total outstanding amount against a loan",
+            "format": "int32",
+            "example": 99000
+          }
+        },
+        "description": "Schema to hold Card information"
+      },
+      "Customer Details": {
+        "required": [
+          "cardDto",
+          "customerDto",
+          "loanDto"
+        ],
+        "type": "object",
+        "properties": {
+          "customerDto": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "cardDto": {
+            "$ref": "#/components/schemas/Cards"
+          },
+          "loanDto": {
+            "$ref": "#/components/schemas/Cards"
+          }
+        },
+        "description": "Customer, Account and Loand details"
+      },
+      "ContactDetails": {
+        "required": [
+          "email",
+          "name",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactInfoDto": {
+        "required": [
+          "contactDetails",
+          "message",
+          "onCall"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "contactDetails": {
+            "$ref": "#/components/schemas/ContactDetails"
+          },
+          "onCall": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactDetails"
+            }
+          }
+        }
+      },
+      "BuildInfo": {
+        "required": [
+          "appVersion",
+          "javaVersion"
+        ],
+        "type": "object",
+        "properties": {
+          "appVersion": {
+            "type": "string",
+            "description": "Application version"
+          },
+          "javaVersion": {
+            "type": "string",
+            "description": "Java version"
+          }
+        },
+        "description": "Build information"
+      }
+    }
+  }
+}
