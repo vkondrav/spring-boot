@@ -34,7 +34,6 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
 	implementation("mysql:mysql-connector-java:8.0.33")
-	implementation("com.h2database:h2")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

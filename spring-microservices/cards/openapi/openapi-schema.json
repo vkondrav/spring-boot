@@ -25,7 +25,7 @@
   ],
   "tags": [
     {
-      "name": "Cards API",
+      "name": "cards",
       "description": "Cards API"
     }
   ],
@@ -33,7 +33,7 @@
     "/api/update": {
       "put": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Update a card",
         "operationId": "updateCard",
@@ -41,13 +41,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Cards"
+                "$ref": "#/components/schemas/Card"
               }
             }
           },
           "required": true
         },
         "responses": {
+          "200": {
+            "description": "Card updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -67,16 +77,6 @@
                 }
               }
             }
-          },
-          "200": {
-            "description": "Card updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
           }
         }
       }
@@ -84,7 +84,7 @@
     "/api/create": {
       "post": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Create a card",
         "operationId": "createCard",
@@ -99,8 +99,8 @@
           }
         ],
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "400": {
+            "description": "Card Already Exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,8 +109,8 @@
               }
             }
           },
-          "400": {
-            "description": "Card Already Exists",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -135,7 +135,7 @@
     "/api/fetch": {
       "get": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Fetch card details by mobile number",
         "operationId": "fetchCardDetails",
@@ -160,22 +160,22 @@
               }
             }
           },
+          "200": {
+            "description": "Card details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Card not found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Card details fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Cards"
                 }
               }
             }
@@ -186,7 +186,7 @@
     "/api/contact-info": {
       "get": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Get contact info",
         "operationId": "getContactInfo",
@@ -227,27 +227,27 @@
     "/api/build-info": {
       "get": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Get build info",
         "operationId": "getBuildInfo",
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Build info fetched successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BuildInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -268,7 +268,7 @@
     "/api/delete": {
       "delete": {
         "tags": [
-          "Cards API"
+          "cards"
         ],
         "summary": "Delete a card",
         "operationId": "deleteCard",
@@ -319,7 +319,7 @@
   },
   "components": {
     "schemas": {
-      "Cards": {
+      "Card": {
         "required": [
           "amountUsed",
           "availableAmount",

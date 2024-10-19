@@ -25,7 +25,7 @@
   ],
   "tags": [
     {
-      "name": "Loans API",
+      "name": "loans",
       "description": "Loans API"
     }
   ],
@@ -33,7 +33,7 @@
     "/api/update": {
       "put": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Update a loan",
         "operationId": "updateLoan",
@@ -41,13 +41,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Cards"
+                "$ref": "#/components/schemas/Loan"
               }
             }
           },
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Loan updated successfully",
             "content": {
@@ -67,16 +77,6 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -84,7 +84,7 @@
     "/api/create": {
       "post": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Create a loan",
         "operationId": "createLoan",
@@ -109,22 +109,22 @@
               }
             }
           },
-          "201": {
-            "description": "Loan created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Loan created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -135,7 +135,7 @@
     "/api/fetch": {
       "get": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Fetch loan details by mobile number",
         "operationId": "fetchLoanDetails",
@@ -150,18 +150,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Loan details fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Cards"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Loan not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -170,8 +160,18 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "200": {
+            "description": "Loan details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Loan"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Loan not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -186,13 +186,13 @@
     "/api/contact-info": {
       "get": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
-          "404": {
-            "description": "Contact info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -211,8 +211,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Contact info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -227,11 +227,21 @@
     "/api/build-info": {
       "get": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Get build info",
         "operationId": "getBuildInfo",
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Build info fetched successfully",
             "content": {
@@ -251,16 +261,6 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -268,7 +268,7 @@
     "/api/delete": {
       "delete": {
         "tags": [
-          "Loans API"
+          "loans"
         ],
         "summary": "Delete a loan",
         "operationId": "deleteLoan",
@@ -283,6 +283,16 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Loan deleted successfully",
             "content": {
@@ -302,16 +312,6 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -319,7 +319,7 @@
   },
   "components": {
     "schemas": {
-      "Cards": {
+      "Loan": {
         "required": [
           "amountPaid",
           "loanNumber",
@@ -365,7 +365,7 @@
             "example": 99000
           }
         },
-        "description": "Schema to hold Card information"
+        "description": "Schema to hold Loan information"
       },
       "ErrorResponse": {
         "required": [

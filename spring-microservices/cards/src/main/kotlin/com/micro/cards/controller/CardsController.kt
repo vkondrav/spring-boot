@@ -24,7 +24,7 @@ import java.net.HttpURLConnection
 @RestController
 @RequestMapping("/api", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
-@Tag(name = "Cards API", description = "Cards API")
+@Tag(name = "cards", description = "Cards API")
 @ApiResponses(
     ApiResponse(
         responseCode = "500",

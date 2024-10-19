@@ -33,7 +33,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
     )
 )
 @ConfigurationPropertiesScan
-@EnableFeignClients
+@EnableFeignClients(basePackages = ["com.micro.cards.api", "com.micro.loans.api"])
 class AccountsApplication
 
 fun main(args: Array<String>) {

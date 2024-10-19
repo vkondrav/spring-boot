@@ -6,10 +6,7 @@ import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Pattern
 import org.springframework.stereotype.Component
 
-@Schema(
-    name = "Account",
-    description = "Account details"
-)
+@Schema(name = "Account", description = "Schema to hold Account information")
 data class AccountDto(
 
     @Schema(description = "Account number")

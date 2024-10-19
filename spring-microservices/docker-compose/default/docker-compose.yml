@@ -144,6 +144,8 @@ services:
     depends_on:
       config:
         condition: service_healthy
+      cardsdb:
+        condition: service_healthy
       eureka:
         condition: service_healthy
 
@@ -191,6 +193,8 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
     depends_on:
       config:
+        condition: service_healthy
+      loansdb:
         condition: service_healthy
       eureka:
         condition: service_healthy

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero
 import org.springframework.stereotype.Component
 
 
-@Schema(name = "Cards", description = "Schema to hold Card information")
+@Schema(name = "Card", description = "Schema to hold Card information")
 data class CardDto(
     @NotBlank(message = "Mobile Number can not be a null or empty")
     @ValidMobileNumber
