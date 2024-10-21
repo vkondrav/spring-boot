@@ -72,6 +72,9 @@ tasks.withType<Test> {
 }
 
 jib {
+    from {
+        image = "eclipse-temurin:17"
+    }
     to {
         image = "vkondrav/${project.name}:${project.version}"
     }
