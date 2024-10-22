@@ -1,4 +1,4 @@
-package com.micro.edge
+package com.micro.edge.config
 
 import org.slf4j.LoggerFactory
 import org.springframework.cloud.gateway.filter.GatewayFilterChain

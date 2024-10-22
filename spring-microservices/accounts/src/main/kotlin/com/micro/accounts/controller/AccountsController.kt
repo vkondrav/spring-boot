@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.core.env.Environment
@@ -24,7 +25,7 @@ import java.net.HttpURLConnection
 @RestController
 @RequestMapping("/api", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
-@Tag(name = "Accounts API", description = "Accounts API")
+@Tag(name = "accounts", description = "Accounts API")
 @ApiResponses(
     ApiResponse(
         responseCode = "500",
@@ -39,6 +40,8 @@ class AccountsController(
     private val environment: Environment,
     private val contactInfoDto: ContactInfoDto,
 ) {
+
+    private val logger = LoggerFactory.getLogger(AccountsController::class.java)
 
     @Operation(summary = "Create an account")
     @ApiResponses(
@@ -90,12 +93,17 @@ class AccountsController(
     )
     @GetMapping("/fetch")
     fun fetchAccountDetails(
+        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
-    ): ResponseEntity<CustomerDto> =
-        ResponseEntity(
+    ): ResponseEntity<CustomerDto> {
+
+        logger.debug("Correlation ID: $correlationId")
+
+        return ResponseEntity(
             accountsService.fetchAccount(mobileNumber),
             HttpStatus.OK
         )
+    }
 
     @Operation(summary = "Update an account")
     @ApiResponses(

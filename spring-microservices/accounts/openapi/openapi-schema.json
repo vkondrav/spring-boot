@@ -25,11 +25,7 @@
   ],
   "tags": [
     {
-      "name": "Customers API",
-      "description": "Customers API"
-    },
-    {
-      "name": "Accounts API",
+      "name": "accounts",
       "description": "Accounts API"
     }
   ],
@@ -37,7 +33,7 @@
     "/api/update": {
       "put": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Update an account",
         "operationId": "updateAccount",
@@ -52,8 +48,8 @@
           "required": true
         },
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "304": {
+            "description": "Account not updated",
             "content": {
               "application/json": {
                 "schema": {
@@ -62,8 +58,8 @@
               }
             }
           },
-          "304": {
-            "description": "Account not updated",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -88,7 +84,7 @@
     "/api/create": {
       "post": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Create an account",
         "operationId": "createAccount",
@@ -113,8 +109,8 @@
               }
             }
           },
-          "400": {
-            "description": "Customer Already Exists",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -123,8 +119,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "400": {
+            "description": "Customer Already Exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -139,11 +135,19 @@
     "/api/fetch": {
       "get": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Fetch account details by mobile number",
         "operationId": "fetchAccountDetails",
         "parameters": [
+          {
+            "name": "correlation-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "mobileNumber",
             "in": "query",
@@ -187,83 +191,14 @@
         }
       }
     },
-    "/api/fetchCustomerDetails": {
-      "get": {
-        "tags": [
-          "Customers API"
-        ],
-        "summary": "Fetch customer details by mobile number",
-        "operationId": "fetchCustomerDetails",
-        "parameters": [
-          {
-            "name": "correlation-id",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "mobileNumber",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Customer details fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Customer Details"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Customer not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/contact-info": {
       "get": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
-          "404": {
-            "description": "Contact info not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Contact Info fetched successfully",
             "content": {
@@ -283,6 +218,16 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Contact info not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -290,7 +235,7 @@
     "/api/build-info": {
       "get": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Get build info",
         "operationId": "getBuildInfo",
@@ -305,8 +250,8 @@
               }
             }
           },
-          "404": {
-            "description": "Build info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -315,8 +260,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Build info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -331,7 +276,7 @@
     "/api/delete": {
       "delete": {
         "tags": [
-          "Accounts API"
+          "accounts"
         ],
         "summary": "Delete an account",
         "operationId": "deleteAccount",
@@ -552,122 +497,6 @@
           }
         },
         "description": "Success response information"
-      },
-      "Card": {
-        "required": [
-          "amountUsed",
-          "availableAmount",
-          "cardNumber",
-          "cardType",
-          "mobileNumber",
-          "totalLimit"
-        ],
-        "type": "object",
-        "properties": {
-          "mobileNumber": {
-            "type": "string",
-            "description": "Mobile Number of Customer",
-            "example": "4354437687"
-          },
-          "cardNumber": {
-            "pattern": "(^$|[0-9]{12})",
-            "type": "string",
-            "description": "Card Number of the customer",
-            "example": "100646930341"
-          },
-          "cardType": {
-            "type": "string",
-            "description": "Type of the card",
-            "example": "Credit Card"
-          },
-          "totalLimit": {
-            "type": "integer",
-            "description": "Total amount limit available against a card",
-            "format": "int32",
-            "example": 100000
-          },
-          "amountUsed": {
-            "type": "integer",
-            "description": "Total amount used by a Customer",
-            "format": "int32",
-            "example": 1000
-          },
-          "availableAmount": {
-            "type": "integer",
-            "description": "Total available amount against a card",
-            "format": "int32",
-            "example": 90000
-          }
-        },
-        "description": "Schema to hold Card information"
-      },
-      "Customer Details": {
-        "required": [
-          "cardDto",
-          "customerDto",
-          "loanDto"
-        ],
-        "type": "object",
-        "properties": {
-          "customerDto": {
-            "$ref": "#/components/schemas/Customer"
-          },
-          "cardDto": {
-            "$ref": "#/components/schemas/Card"
-          },
-          "loanDto": {
-            "$ref": "#/components/schemas/Loan"
-          }
-        },
-        "description": "Customer, Account and Loan details"
-      },
-      "Loan": {
-        "required": [
-          "amountPaid",
-          "loanNumber",
-          "loanType",
-          "mobileNumber",
-          "outstandingAmount",
-          "totalLoan"
-        ],
-        "type": "object",
-        "properties": {
-          "mobileNumber": {
-            "type": "string",
-            "description": "Mobile Number of Customer",
-            "example": "4354437687"
-          },
-          "loanNumber": {
-            "type": "integer",
-            "description": "Loan Number of the customer",
-            "format": "int64",
-            "example": 548732457654
-          },
-          "loanType": {
-            "type": "string",
-            "description": "Type of the loan",
-            "example": "Home Loan"
-          },
-          "totalLoan": {
-            "type": "integer",
-            "description": "Total loan amount",
-            "format": "int32",
-            "example": 100000
-          },
-          "amountPaid": {
-            "type": "integer",
-            "description": "Total loan amount paid",
-            "format": "int32",
-            "example": 1000
-          },
-          "outstandingAmount": {
-            "type": "integer",
-            "description": "Total outstanding amount against a loan",
-            "format": "int32",
-            "example": 99000
-          }
-        },
-        "description": "Schema to hold Loan information"
       },
       "ContactDetails": {
         "required": [

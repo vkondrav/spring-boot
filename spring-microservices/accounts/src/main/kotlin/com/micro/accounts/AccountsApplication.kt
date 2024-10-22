@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.servers.Server
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
-import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
 @SpringBootApplication
@@ -37,7 +36,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
     ],
 )
 @ConfigurationPropertiesScan
-@EnableFeignClients(basePackages = ["com.micro.cards.api", "com.micro.loans.api"])
 class AccountsApplication
 
 fun main(args: Array<String>) {

@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.info.License
 import io.swagger.v3.oas.annotations.servers.Server
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
+
 
 @SpringBootApplication
 @OpenAPIDefinition(
@@ -17,7 +19,7 @@ import org.springframework.boot.runApplication
         version = "1.0",
         contact = Contact(
             name = "Edge Microservice Team",
-            email = "account@microservices.com",
+            email = "edge@microservices.com",
         ),
         license = License(
             name = "Apache 2.0",
@@ -32,8 +34,16 @@ import org.springframework.boot.runApplication
         Server(url = "http://localhost:8072/", description = "Edge Service"),
     ],
 )
+@EnableFeignClients(
+    basePackages = [
+        "com.micro.cards.api",
+        "com.micro.loans.api",
+        "com.micro.accounts.api",
+    ]
+)
 class EdgeApplication
 
 fun main(args: Array<String>) {
     runApplication<EdgeApplication>(*args)
 }
+

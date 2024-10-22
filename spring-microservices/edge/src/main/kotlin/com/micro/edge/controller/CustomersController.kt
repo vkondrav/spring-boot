@@ -1,9 +1,9 @@
-package com.micro.accounts.controller
+package com.micro.edge.controller
 
-import com.micro.accounts.dto.CustomerDetailsDto
-import com.micro.accounts.dto.ErrorResponseDto
-import com.micro.accounts.service.CustomersService
-import com.micro.accounts.validation.ValidMobileNumber
+import com.micro.edge.dto.CustomerDetailsDto
+import com.micro.edge.dto.ErrorResponseDto
+import com.micro.edge.service.CustomersService
+import com.micro.edge.validation.ValidMobileNumber
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -15,18 +15,14 @@ import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.net.HttpURLConnection
 
 @RefreshScope
 @RestController
 @RequestMapping("/api", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
-@Tag(name = "Customers API", description = "Customers API")
+@Tag(name = "customers", description = "Customers API")
 @ApiResponses(
     ApiResponse(
         responseCode = "500",
@@ -57,16 +53,13 @@ class CustomersController(
         ),
     )
     @GetMapping("/fetchCustomerDetails")
-    fun fetchCustomerDetails(
+    suspend fun fetchCustomerDetails(
         @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
     ): ResponseEntity<CustomerDetailsDto> {
 
         logger.debug("Correlation ID: $correlationId")
 
-        return ResponseEntity.ok(
-            customersService.fetchCustomerDetails(correlationId, mobileNumber),
-        )
+        return ResponseEntity.ok(customersService.fetchCustomerDetails(correlationId, mobileNumber))
     }
-
 }

@@ -1,6 +1,5 @@
-package com.micro.edge
+package com.micro.edge.config
 
-import org.apache.http.Header
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.cloud.gateway.route.builder.filters
