@@ -2,6 +2,7 @@
 
 (cd eureka && ./gradlew jibDockerBuild) &
 (cd config && ./gradlew jibDockerBuild) &
+(cd edge && ./gradlew jibDockerBuild) &
 (cd accounts && ./gradlew jibDockerBuild) &
 (cd loans && ./gradlew jibDockerBuild) &
 (cd cards && ./gradlew jibDockerBuild) &

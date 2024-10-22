@@ -68,7 +68,7 @@ jib {
 }
 
 openApi {
-	apiDocsUrl.set("http://localhost:9000/v3/api-docs")
+	apiDocsUrl.set("http://localhost:8072/cards/v3/api-docs")
 	outputDir.set(file("$projectDir/openapi"))
 	outputFileName.set("openapi-schema.json")
 	waitTimeInSeconds.set(10)

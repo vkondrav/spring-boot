@@ -49,3 +49,15 @@ info:
     name: "loans"
     description: "Loans Service"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      micro:
+        edge: DEBUG
+
+springdoc:
+  api-docs:
+    path: /loans/v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

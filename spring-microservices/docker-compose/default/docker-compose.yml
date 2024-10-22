@@ -71,6 +71,28 @@ services:
       config:
         condition: service_healthy
 
+  edge:
+    image: vkondrav/edge:v1
+    container_name: edge_service
+    ports:
+      - "8072:8072"
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8072/actuator/health | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - backend
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://config:8071/"
+      SPRING_PROFILES_ACTIVE: "default"
+      SPRING_APPLICATION_NAME: "edge"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
+    depends_on:
+      eureka:
+        condition: service_healthy
+
   accounts:
     image: vkondrav/accounts:v1
     container_name: accounts_service
@@ -92,11 +114,9 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
     depends_on:
-      config:
-        condition: service_healthy
       accountsdb:
         condition: service_healthy
-      eureka:
+      edge:
         condition: service_healthy
 
   accountsdb:
@@ -142,11 +162,9 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3307/cardsdb"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
     depends_on:
-      config:
-        condition: service_healthy
       cardsdb:
         condition: service_healthy
-      eureka:
+      edge:
         condition: service_healthy
 
   cardsdb:
@@ -192,11 +210,9 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3308/loansdb"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
     depends_on:
-      config:
-        condition: service_healthy
       loansdb:
         condition: service_healthy
-      eureka:
+      edge:
         condition: service_healthy
 
   loansdb:

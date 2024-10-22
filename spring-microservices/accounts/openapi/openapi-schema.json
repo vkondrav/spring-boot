@@ -19,8 +19,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8081",
-      "description": "Generated server url"
+      "url": "http://localhost:8072/micro/accounts",
+      "description": "Accounts Edge"
     }
   ],
   "tags": [
@@ -52,8 +52,8 @@
           "required": true
         },
         "responses": {
-          "304": {
-            "description": "Account not updated",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -62,8 +62,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "304": {
+            "description": "Account not updated",
             "content": {
               "application/json": {
                 "schema": {
@@ -196,6 +196,14 @@
         "operationId": "fetchCustomerDetails",
         "parameters": [
           {
+            "name": "correlation-id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "mobileNumber",
             "in": "query",
             "required": true,
@@ -205,12 +213,12 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Customer not found",
+          "200": {
+            "description": "Customer details fetched successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Customer Details"
                 }
               }
             }
@@ -225,12 +233,12 @@
               }
             }
           },
-          "200": {
-            "description": "Customer details fetched successfully",
+          "404": {
+            "description": "Customer not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Customer Details"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -246,8 +254,8 @@
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Contact info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -266,8 +274,8 @@
               }
             }
           },
-          "404": {
-            "description": "Contact info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -297,8 +305,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Build info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -307,8 +315,8 @@
               }
             }
           },
-          "404": {
-            "description": "Build info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -348,22 +356,22 @@
               }
             }
           },
-          "200": {
-            "description": "Account deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
           "304": {
             "description": "Account not deleted",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Account deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -398,7 +406,7 @@
             "example": "123 Main St, City, Country"
           }
         },
-        "description": "Account details"
+        "description": "Schema to hold Account information"
       },
       "Customer": {
         "required": [
@@ -545,7 +553,75 @@
         },
         "description": "Success response information"
       },
-      "Cards": {
+      "Card": {
+        "required": [
+          "amountUsed",
+          "availableAmount",
+          "cardNumber",
+          "cardType",
+          "mobileNumber",
+          "totalLimit"
+        ],
+        "type": "object",
+        "properties": {
+          "mobileNumber": {
+            "type": "string",
+            "description": "Mobile Number of Customer",
+            "example": "4354437687"
+          },
+          "cardNumber": {
+            "pattern": "(^$|[0-9]{12})",
+            "type": "string",
+            "description": "Card Number of the customer",
+            "example": "100646930341"
+          },
+          "cardType": {
+            "type": "string",
+            "description": "Type of the card",
+            "example": "Credit Card"
+          },
+          "totalLimit": {
+            "type": "integer",
+            "description": "Total amount limit available against a card",
+            "format": "int32",
+            "example": 100000
+          },
+          "amountUsed": {
+            "type": "integer",
+            "description": "Total amount used by a Customer",
+            "format": "int32",
+            "example": 1000
+          },
+          "availableAmount": {
+            "type": "integer",
+            "description": "Total available amount against a card",
+            "format": "int32",
+            "example": 90000
+          }
+        },
+        "description": "Schema to hold Card information"
+      },
+      "Customer Details": {
+        "required": [
+          "cardDto",
+          "customerDto",
+          "loanDto"
+        ],
+        "type": "object",
+        "properties": {
+          "customerDto": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "cardDto": {
+            "$ref": "#/components/schemas/Card"
+          },
+          "loanDto": {
+            "$ref": "#/components/schemas/Loan"
+          }
+        },
+        "description": "Customer, Account and Loan details"
+      },
+      "Loan": {
         "required": [
           "amountPaid",
           "loanNumber",
@@ -591,27 +667,7 @@
             "example": 99000
           }
         },
-        "description": "Schema to hold Card information"
-      },
-      "Customer Details": {
-        "required": [
-          "cardDto",
-          "customerDto",
-          "loanDto"
-        ],
-        "type": "object",
-        "properties": {
-          "customerDto": {
-            "$ref": "#/components/schemas/Customer"
-          },
-          "cardDto": {
-            "$ref": "#/components/schemas/Cards"
-          },
-          "loanDto": {
-            "$ref": "#/components/schemas/Cards"
-          }
-        },
-        "description": "Customer, Account and Loand details"
+        "description": "Schema to hold Loan information"
       },
       "ContactDetails": {
         "required": [

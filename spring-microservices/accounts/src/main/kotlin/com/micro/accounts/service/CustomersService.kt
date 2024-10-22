@@ -13,16 +13,22 @@ class CustomersService(
     private val loansFeignClient: LoansApiClient,
 ) {
 
-    fun fetchCustomerDetails(mobileNumber: String): CustomerDetailsDto {
+    fun fetchCustomerDetails(correlationId: String?, mobileNumber: String): CustomerDetailsDto {
         val customerDto = accountsService.fetchAccount(mobileNumber)
 
-        val cardDto = cardsFeignClient.fetchCardDetails(mobileNumber).body ?: throw ResourceNotFoundException(
+        val cardDto = cardsFeignClient.fetchCardDetails(
+            correlationId,
+            mobileNumber
+        ).body ?: throw ResourceNotFoundException(
             "Card",
             "Mobile Number",
             mobileNumber
         )
 
-        val loanDto = loansFeignClient.fetchLoanDetails(mobileNumber).body ?: throw ResourceNotFoundException(
+        val loanDto = loansFeignClient.fetchLoanDetails(
+            correlationId,
+            mobileNumber
+        ).body ?: throw ResourceNotFoundException(
             "Loan",
             "Mobile Number",
             mobileNumber

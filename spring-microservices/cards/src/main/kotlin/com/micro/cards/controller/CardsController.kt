@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.core.env.Environment
@@ -39,6 +40,8 @@ class CardsController(
     private val environment: Environment,
     private val contactInfoDto: ContactInfoDto,
 ) {
+
+    private val logger = LoggerFactory.getLogger(CardsController::class.java)
 
     @Operation(summary = "Create a card")
     @ApiResponses(
@@ -90,12 +93,17 @@ class CardsController(
     )
     @GetMapping("/fetch")
     fun fetchCardDetails(
+        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
-    ): ResponseEntity<CardDto> =
-        ResponseEntity(
+    ): ResponseEntity<CardDto> {
+
+        logger.debug("Correlation ID: $correlationId")
+
+        return ResponseEntity(
             cardsService.fetchCard(mobileNumber),
             HttpStatus.OK
         )
+    }
 
     @Operation(summary = "Update a card")
     @ApiResponses(

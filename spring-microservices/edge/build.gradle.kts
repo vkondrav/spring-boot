@@ -1,11 +1,9 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.jpa") version "1.9.25"
-	id("org.jetbrains.kotlin.plugin.spring") version "2.0.21"
+	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 	id("com.google.cloud.tools.jib") version "3.4.2"
-	id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
 }
 
 group = "com.micro"
@@ -25,19 +23,18 @@ extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
-	implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
-	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("org.springframework.cloud:spring-cloud-starter-gateway")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -65,11 +62,4 @@ jib {
 	to {
 		image = "vkondrav/${project.name}:${project.version}"
 	}
-}
-
-openApi {
-	apiDocsUrl.set("http://localhost:8072/loans/v3/api-docs")
-	outputDir.set(file("$projectDir/openapi"))
-	outputFileName.set("openapi-schema.json")
-	waitTimeInSeconds.set(10)
 }

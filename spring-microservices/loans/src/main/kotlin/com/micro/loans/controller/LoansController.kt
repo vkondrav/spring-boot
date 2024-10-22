@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.core.env.Environment
@@ -39,6 +40,8 @@ class LoansController(
     private val environment: Environment,
     private val contactInfoDto: ContactInfoDto,
 ) {
+
+    private val logger = LoggerFactory.getLogger(LoansController::class.java)
 
     @Operation(summary = "Create a loan")
     @ApiResponses(
@@ -90,12 +93,17 @@ class LoansController(
     )
     @GetMapping("/fetch")
     fun fetchLoanDetails(
+        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
-    ): ResponseEntity<LoanDto> =
-        ResponseEntity(
+    ): ResponseEntity<LoanDto> {
+
+        logger.debug("Correlation ID: $correlationId")
+
+        return ResponseEntity(
             loansService.fetchLoan(mobileNumber),
             HttpStatus.OK
         )
+    }
 
     @Operation(summary = "Update a loan")
     @ApiResponses(

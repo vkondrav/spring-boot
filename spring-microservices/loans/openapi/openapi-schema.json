@@ -19,8 +19,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8090",
-      "description": "Generated server url"
+      "url": "http://localhost:8072/micro/loans",
+      "description": "Loans Edge"
     }
   ],
   "tags": [
@@ -48,16 +48,6 @@
           "required": true
         },
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Loan updated successfully",
             "content": {
@@ -70,6 +60,16 @@
           },
           "304": {
             "description": "Loan not updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,22 +109,22 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "201": {
             "description": "Loan created successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -141,6 +141,14 @@
         "operationId": "fetchLoanDetails",
         "parameters": [
           {
+            "name": "correlation-id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "mobileNumber",
             "in": "query",
             "required": true,
@@ -150,16 +158,6 @@
           }
         ],
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Loan details fetched successfully",
             "content": {
@@ -179,6 +177,16 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -191,8 +199,8 @@
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Contact info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -211,8 +219,8 @@
               }
             }
           },
-          "404": {
-            "description": "Contact info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -232,8 +240,8 @@
         "summary": "Get build info",
         "operationId": "getBuildInfo",
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Build info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -252,8 +260,8 @@
               }
             }
           },
-          "404": {
-            "description": "Build info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -283,16 +291,6 @@
           }
         ],
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Loan deleted successfully",
             "content": {
@@ -305,6 +303,16 @@
           },
           "304": {
             "description": "Loan not deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {

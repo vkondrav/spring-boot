@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: "edge"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "edge"
+    description: "Edge Service"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      micro:
+        edge: DEBUG
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    configUrl: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    urls:
+      - name: api-edge
+        url: /v3/api-docs
+      - name: api-account
+        url: /accounts/v3/api-docs
+      - name: api-cards
+        url: /cards/v3/api-docs
+      - name: api-loans
+        url: /loans/v3/api-docs

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Contact
 import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.info.License
+import io.swagger.v3.oas.annotations.servers.Server
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
@@ -29,7 +30,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
     externalDocs = ExternalDocumentation(
         description = "Loans Wiki",
         url = "https://wiki.microservices.com/cards"
-    )
+    ),
+    servers = [
+        Server(url = "http://localhost:8072/micro/loans", description = "Loans Edge"),
+    ],
 )
 @ConfigurationPropertiesScan
 class LoansApplication
