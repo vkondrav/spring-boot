@@ -66,7 +66,7 @@ class RoutesConfig {
                     config.setKeyResolver(userKeyResolver())
                 }
                 circuitBreaker { config ->
-                    config.name = "accounts_circuit_breaker"
+                    config.name = "cards_circuit_breaker"
                     config.setFallbackUri("forward:/fallback")
                 }
                 retry { config ->
@@ -100,7 +100,7 @@ class RoutesConfig {
                     config.setKeyResolver(userKeyResolver())
                 }
                 circuitBreaker { config ->
-                    config.name = "accounts_circuit_breaker"
+                    config.name = "loans_circuit_breaker"
                     config.setFallbackUri("forward:/fallback")
                 }
                 retry { config ->
@@ -130,5 +130,5 @@ class RoutesConfig {
     }
 
     @Bean
-    fun redisRateLimiter() = RedisRateLimiter(10, 10, 10)
+    fun redisRateLimiter() = RedisRateLimiter(10, 10)
 }

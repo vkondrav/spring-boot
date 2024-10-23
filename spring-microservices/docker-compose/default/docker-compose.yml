@@ -12,6 +12,19 @@ services:
       timeout: 10s
       retries: 10
 
+  redis-insight:
+    image: redis/redisinsight
+    container_name: redis_insight
+    ports:
+      - "5540:5540"
+    networks:
+      - backend
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - redisinsight:/data
+
   rabbitmq:
     image: rabbitmq:4.0-management
     container_name: rabbitmq
@@ -263,3 +276,4 @@ volumes:
   accountsdb_data:
   cardsdb_data:
   loansdb_data:
+  redisinsight:
