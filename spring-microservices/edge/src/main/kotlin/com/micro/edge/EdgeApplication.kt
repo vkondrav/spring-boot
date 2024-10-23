@@ -34,16 +34,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients
         Server(url = "http://localhost:8072/", description = "Edge Service"),
     ],
 )
-@EnableFeignClients(
-    basePackages = [
-        "com.micro.cards.api",
-        "com.micro.loans.api",
-        "com.micro.accounts.api",
-    ]
-)
+@EnableFeignClients(basePackages = ["com.micro.edge.client"])
 class EdgeApplication
 
 fun main(args: Array<String>) {
     runApplication<EdgeApplication>(*args)
 }
-

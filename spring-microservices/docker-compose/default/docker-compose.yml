@@ -1,5 +1,17 @@
 services:
 
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      timeout: 10s
+      retries: 10
+
   rabbitmq:
     image: rabbitmq:4.0-management
     container_name: rabbitmq
@@ -41,9 +53,9 @@ services:
       - backend
     entrypoint: [ "/bin/sh","-c" ]
     command:
-    - |
-      bin/hookdeck login
-      bin/hookdeck listen http://host.docker.internal:8071 github-spring
+      - |
+        bin/hookdeck login
+        bin/hookdeck listen http://host.docker.internal:8071 github-spring
     depends_on:
       - config
     volumes:
@@ -89,7 +101,13 @@ services:
       SPRING_PROFILES_ACTIVE: "default"
       SPRING_APPLICATION_NAME: "edge"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka:8070/eureka/"
+      SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_TIMEOUT: 1s
     depends_on:
+      redis:
+        condition: service_healthy
       eureka:
         condition: service_healthy
 
