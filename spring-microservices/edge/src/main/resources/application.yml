@@ -10,11 +10,18 @@ spring:
           enabled: false
           lower-case-service-id: true
       httpclient:
-        connect-timeout: 1000
+        connect-timeout: 5000
         response-timeout: 10s
     openfeign:
       circuitbreaker:
         enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 10000
+
+
   data:
     redis:
       connect-timeout: 2s

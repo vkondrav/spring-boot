@@ -5,12 +5,15 @@ import com.micro.accounts.model.BuildInfo
 import com.micro.accounts.model.ContactInfoDto
 import com.micro.accounts.model.Customer
 import com.micro.accounts.model.Response
+import com.micro.edge.config.FeignClientConfig
+import org.openapitools.configuration.ClientConfiguration
 import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.cloud.openfeign.FeignClientProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
-@FeignClient(name = "accounts", fallback = AccountsMicroClient.Fallback::class)
+@FeignClient(name = "accounts", configuration = [FeignClientConfig::class], fallback = AccountsMicroClient.Fallback::class)
 interface AccountsMicroClient : AccountsApi {
 
     @Component

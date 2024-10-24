@@ -1,16 +1,18 @@
 package com.micro.edge.client
 
+import com.micro.edge.config.FeignClientConfig
 import com.micro.loans.api.LoansApi
 import com.micro.loans.model.BuildInfo
 import com.micro.loans.model.ContactInfoDto
 import com.micro.loans.model.Loan
 import com.micro.loans.model.Response
 import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.cloud.openfeign.FeignClientProperties.FeignClientConfiguration
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
-@FeignClient(name = "loans", fallback = LoansMicroClient.Fallback::class)
+@FeignClient(name = "loans", configuration = [FeignClientConfig::class], fallback = LoansMicroClient.Fallback::class)
 interface LoansMicroClient : LoansApi {
     @Component
     class Fallback : LoansMicroClient {

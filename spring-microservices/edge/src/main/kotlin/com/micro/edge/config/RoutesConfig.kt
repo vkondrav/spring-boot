@@ -40,7 +40,7 @@ class RoutesConfig {
                     config.setMethods(HttpMethod.GET)
                     config.setBackoff(RetryGatewayFilterFactory.BackoffConfig().apply {
                         firstBackoff = 100.milliseconds.toJavaDuration()
-                        maxBackoff = 1_000.milliseconds.toJavaDuration()
+                        maxBackoff = 10_000.milliseconds.toJavaDuration()
                         factor = 2
                         isBasedOnPreviousValue = true
                     })
@@ -74,7 +74,7 @@ class RoutesConfig {
                     config.setMethods(HttpMethod.GET)
                     config.setBackoff(RetryGatewayFilterFactory.BackoffConfig().apply {
                         firstBackoff = 100.milliseconds.toJavaDuration()
-                        maxBackoff = 1_000.milliseconds.toJavaDuration()
+                        maxBackoff = 10_000.milliseconds.toJavaDuration()
                         factor = 2
                         isBasedOnPreviousValue = true
                     })
@@ -108,7 +108,7 @@ class RoutesConfig {
                     config.setMethods(HttpMethod.GET)
                     config.setBackoff(RetryGatewayFilterFactory.BackoffConfig().apply {
                         firstBackoff = 100.milliseconds.toJavaDuration()
-                        maxBackoff = 1_000.milliseconds.toJavaDuration()
+                        maxBackoff = 10_000.milliseconds.toJavaDuration()
                         factor = 2
                         isBasedOnPreviousValue = true
                     })
