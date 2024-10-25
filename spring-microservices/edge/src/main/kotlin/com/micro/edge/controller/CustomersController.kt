@@ -55,12 +55,15 @@ class CustomersController(
     )
     @GetMapping("/fetchCustomerDetails")
     suspend fun fetchCustomerDetails(
-        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
     ): ResponseEntity<CustomerDetailsDto> {
 
-        logger.debug("Correlation ID: $correlationId")
+        logger.debug("Fetching customer details for mobile number: $mobileNumber")
 
-        return ResponseEntity.ok(customersService.fetchCustomerDetails(correlationId, mobileNumber))
+        val response = customersService.fetchCustomerDetails(mobileNumber)
+
+        logger.debug("Customer details fetched successfully for mobile number: $mobileNumber")
+
+        return ResponseEntity.ok(response)
     }
 }

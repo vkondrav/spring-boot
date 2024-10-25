@@ -20,12 +20,12 @@ class CustomersService(
     private val loansApiClient: LoansMicroClient,
 ) {
 
-    suspend fun fetchCustomerDetails(correlationId: String?, mobileNumber: String): CustomerDetailsDto =
+    suspend fun fetchCustomerDetails(mobileNumber: String): CustomerDetailsDto =
         withContext(Dispatchers.IO) {
 
             val customer = suspendCoroutine {
                 try {
-                    val response = accountsApiClient.fetchAccountDetails(mobileNumber, correlationId)
+                    val response = accountsApiClient.fetchAccountDetails(mobileNumber)
 
                     val code = response.statusCode
                     val body = response.body
@@ -48,7 +48,7 @@ class CustomersService(
 
             val card = suspendCoroutine {
                 try {
-                    it.resume(cardsApiClient.fetchCardDetails(mobileNumber, correlationId)?.body)
+                    it.resume(cardsApiClient.fetchCardDetails(mobileNumber)?.body)
                 } catch (e: Exception) {
                     it.resume(null)
                 }
@@ -56,7 +56,7 @@ class CustomersService(
 
             val loan = suspendCoroutine {
                 try {
-                    it.resume(loansApiClient.fetchLoanDetails(mobileNumber, correlationId)?.body)
+                    it.resume(loansApiClient.fetchLoanDetails(mobileNumber)?.body)
                 } catch (e: Exception) {
                     it.resume(null)
                 }

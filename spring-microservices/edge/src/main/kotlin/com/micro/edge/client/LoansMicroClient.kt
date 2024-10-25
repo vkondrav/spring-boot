@@ -30,7 +30,7 @@ interface LoansMicroClient : LoansApi {
             )
         )
 
-        override fun fetchLoanDetails(mobileNumber: String?, correlationId: String?): ResponseEntity<Loan> =
+        override fun fetchLoanDetails(mobileNumber: String?): ResponseEntity<Loan> =
             ResponseEntity.badRequest().body(null)
 
         override fun getBuildInfo(): ResponseEntity<BuildInfo> = ResponseEntity.badRequest().body(null)

@@ -31,7 +31,7 @@ interface CardsMicroClient : CardsApi {
             )
         )
 
-        override fun fetchCardDetails(mobileNumber: String?, correlationId: String?): ResponseEntity<Card> =
+        override fun fetchCardDetails(mobileNumber: String?): ResponseEntity<Card> =
             ResponseEntity.badRequest().body(null)
 
         override fun getBuildInfo(): ResponseEntity<BuildInfo> =

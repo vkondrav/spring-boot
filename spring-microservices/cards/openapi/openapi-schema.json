@@ -48,22 +48,22 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Card updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Card updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -99,8 +99,8 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Card Already Exists",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,8 +109,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "400": {
+            "description": "Card Already Exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -141,14 +141,6 @@
         "operationId": "fetchCardDetails",
         "parameters": [
           {
-            "name": "correlation-id",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "mobileNumber",
             "in": "query",
             "required": true,
@@ -158,16 +150,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Card not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -187,6 +169,16 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -199,8 +191,8 @@
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
-          "404": {
-            "description": "Contact info not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -209,8 +201,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Contact info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -240,16 +232,6 @@
         "summary": "Get build info",
         "operationId": "getBuildInfo",
         "responses": {
-          "200": {
-            "description": "Build info fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BuildInfo"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -266,6 +248,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Build info fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildInfo"
                 }
               }
             }
@@ -301,22 +293,22 @@
               }
             }
           },
-          "200": {
-            "description": "Card deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
           "304": {
             "description": "Card not deleted",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Card deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }

@@ -109,8 +109,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "400": {
+            "description": "Customer Already Exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -119,8 +119,8 @@
               }
             }
           },
-          "400": {
-            "description": "Customer Already Exists",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -141,14 +141,6 @@
         "operationId": "fetchAccountDetails",
         "parameters": [
           {
-            "name": "correlation-id",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "mobileNumber",
             "in": "query",
             "required": true,
@@ -168,8 +160,8 @@
               }
             }
           },
-          "404": {
-            "description": "Account not found",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -178,8 +170,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Account not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -199,6 +191,16 @@
         "summary": "Get contact info",
         "operationId": "getContactInfo",
         "responses": {
+          "404": {
+            "description": "Contact info not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Contact Info fetched successfully",
             "content": {
@@ -218,16 +220,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Contact info not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -240,6 +232,16 @@
         "summary": "Get build info",
         "operationId": "getBuildInfo",
         "responses": {
+          "404": {
+            "description": "Build info not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Build info fetched successfully",
             "content": {
@@ -252,16 +254,6 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Build info not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -291,8 +283,8 @@
           }
         ],
         "responses": {
-          "500": {
-            "description": "Internal Server Error",
+          "304": {
+            "description": "Account not deleted",
             "content": {
               "application/json": {
                 "schema": {
@@ -301,8 +293,8 @@
               }
             }
           },
-          "304": {
-            "description": "Account not deleted",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {

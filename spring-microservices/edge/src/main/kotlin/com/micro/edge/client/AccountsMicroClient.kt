@@ -6,9 +6,7 @@ import com.micro.accounts.model.ContactInfoDto
 import com.micro.accounts.model.Customer
 import com.micro.accounts.model.Response
 import com.micro.edge.config.FeignClientConfig
-import org.openapitools.configuration.ClientConfiguration
 import org.springframework.cloud.openfeign.FeignClient
-import org.springframework.cloud.openfeign.FeignClientProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
@@ -19,7 +17,7 @@ interface AccountsMicroClient : AccountsApi {
     @Component
     class Fallback : AccountsMicroClient {
 
-        override fun fetchAccountDetails(mobileNumber: String?, correlationId: String?): ResponseEntity<Customer> =
+        override fun fetchAccountDetails(mobileNumber: String?): ResponseEntity<Customer> =
             ResponseEntity.badRequest().body(null)
 
         override fun createAccount(customer: Customer?): ResponseEntity<Response> =

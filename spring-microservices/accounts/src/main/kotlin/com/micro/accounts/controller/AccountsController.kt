@@ -25,7 +25,7 @@ import java.net.HttpURLConnection
 @RestController
 @RequestMapping("/api", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
-@Tag(name = "account", description = "Accounts API")
+@Tag(name = "accounts", description = "Accounts API")
 @ApiResponses(
     ApiResponse(
         responseCode = "500",
@@ -93,16 +93,16 @@ class AccountsController(
     )
     @GetMapping("/fetch")
     fun fetchAccountDetails(
-        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
     ): ResponseEntity<CustomerDto> {
 
-        logger.debug("Correlation ID: $correlationId")
+        logger.debug("Fetching account details for mobile number: $mobileNumber")
 
-        return ResponseEntity(
-            accountsService.fetchAccount(mobileNumber),
-            HttpStatus.OK
-        )
+        val response = accountsService.fetchAccount(mobileNumber)
+
+        logger.debug("Account details fetched successfully for mobile number: $mobileNumber")
+
+        return ResponseEntity.ok(response)
     }
 
     @Operation(summary = "Update an account")

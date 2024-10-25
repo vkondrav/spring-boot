@@ -37,6 +37,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("io.micrometer:micrometer-registry-prometheus:1.13.6")
+    implementation("io.opentelemetry.javaagent:opentelemetry-javaagent:2.9.0")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -42,6 +42,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("io.micrometer:micrometer-registry-prometheus:1.13.6")
+    implementation("io.opentelemetry.javaagent:opentelemetry-javaagent:2.9.0")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -93,16 +93,14 @@ class CardsController(
     )
     @GetMapping("/fetch")
     fun fetchCardDetails(
-        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
     ): ResponseEntity<CardDto> {
 
-        logger.debug("Correlation ID: $correlationId")
+        logger.debug("Fetching card details for mobile number: $mobileNumber")
 
-        return ResponseEntity(
-            cardsService.fetchCard(mobileNumber),
-            HttpStatus.OK
-        )
+        val response = cardsService.fetchCard(mobileNumber)
+
+        return ResponseEntity.ok(response)
     }
 
     @Operation(summary = "Update a card")

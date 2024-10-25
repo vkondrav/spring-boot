@@ -93,16 +93,16 @@ class LoansController(
     )
     @GetMapping("/fetch")
     fun fetchLoanDetails(
-        @RequestHeader("correlation-id") correlationId: String?,
         @ValidMobileNumber @RequestParam mobileNumber: String,
     ): ResponseEntity<LoanDto> {
 
-        logger.debug("Correlation ID: $correlationId")
+        logger.debug("Fetching loan details for mobile number: $mobileNumber")
 
-        return ResponseEntity(
-            loansService.fetchLoan(mobileNumber),
-            HttpStatus.OK
-        )
+        val response = loansService.fetchLoan(mobileNumber)
+
+        logger.debug("Loan details fetched successfully for mobile number: $mobileNumber")
+
+        return ResponseEntity.ok(response)
     }
 
     @Operation(summary = "Update a loan")
