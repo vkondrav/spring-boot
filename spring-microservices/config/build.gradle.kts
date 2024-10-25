@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-config-server")
 	implementation("org.springframework.cloud:spring-cloud-starter-bus-amqp")
 	implementation("org.springframework.cloud:spring-cloud-config-monitor")
+	implementation("io.micrometer:micrometer-registry-prometheus:1.13.6")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

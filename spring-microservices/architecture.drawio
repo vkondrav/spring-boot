@@ -228,7 +228,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="54uNulKhkZT0QkPLE8ii-33" value="Alloy" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rotation=-180;" vertex="1" parent="1">
+        <mxCell id="54uNulKhkZT0QkPLE8ii-33" value="Alloy/Prometheus" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;rotation=-180;" vertex="1" parent="1">
           <mxGeometry x="-220" y="190" width="1040" height="680" as="geometry" />
         </mxCell>
       </root>
