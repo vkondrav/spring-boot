@@ -4,7 +4,6 @@ import com.micro.edge.dto.CustomerDetailsDto
 import com.micro.edge.dto.ErrorResponseDto
 import com.micro.edge.service.CustomersService
 import com.micro.edge.validation.ValidMobileNumber
-import io.github.resilience4j.retry.annotation.Retry
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -21,7 +20,7 @@ import java.net.HttpURLConnection
 
 @RefreshScope
 @RestController
-@RequestMapping("/api", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/micro/api", produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
 @Tag(name = "customers", description = "Customers API")
 @ApiResponses(

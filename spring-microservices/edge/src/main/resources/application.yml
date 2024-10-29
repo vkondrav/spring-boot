@@ -21,7 +21,6 @@ spring:
             connectTimeout: 5000
             readTimeout: 10000
 
-
   data:
     redis:
       connect-timeout: 2s
