@@ -1,6 +1,7 @@
 package com.micro.accounts.service
 
 import com.micro.accounts.dto.AccountDto
+import com.micro.accounts.dto.AccountsMessageDto
 import com.micro.accounts.dto.CustomerDto
 import com.micro.accounts.entities.Account
 import com.micro.accounts.entities.Customer
@@ -8,8 +9,10 @@ import com.micro.accounts.exception.CustomerAlreadyExistsException
 import com.micro.accounts.exception.ResourceNotFoundException
 import com.micro.accounts.repositories.AccountRepository
 import com.micro.accounts.repositories.CustomerRepository
+import org.slf4j.LoggerFactory
+import org.springframework.cloud.stream.function.StreamBridge
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+
 
 @Service
 class AccountsService(
@@ -18,7 +21,10 @@ class AccountsService(
     private val customerBuilder: Customer.Builder,
     private val customerDtoBuilder: CustomerDto.Builder,
     private val accountBuilder: Account.Builder,
+    private val streamBridge: StreamBridge,
 ) {
+
+    private val log = LoggerFactory.getLogger(AccountsService::class.java)
 
     fun createAccount(customerDto: CustomerDto) {
 
@@ -34,7 +40,25 @@ class AccountsService(
         }
 
         val newCustomer = customerRepository.save(potentialCustomer)
-        accountRepository.save(accountBuilder(newCustomer))
+        val newAccount = accountRepository.save(accountBuilder(newCustomer))
+
+        sendCommunication(newAccount, newCustomer)
+    }
+
+    private fun sendCommunication(account: Account, customer: Customer) {
+
+        val accountsMsgDto = AccountsMessageDto(
+            account.accountNumber,
+            customer.name,
+            customer.email,
+            customer.mobileNumber
+        )
+
+        log.info("Sending Communication request for the details: {}", accountsMsgDto)
+
+        val result = streamBridge.send("sendCommunication-out-0", accountsMsgDto)
+
+        log.info("Is the Communication request successfully triggered ? : {}", result)
     }
 
     fun fetchAccount(mobileNumber: String): CustomerDto {
@@ -119,5 +143,18 @@ class AccountsService(
         customerRepository.deleteById(customer.customerId)
 
         return true
+    }
+
+    fun updateCommunication(accountNumber: Long) {
+        val account = accountRepository.findById(accountNumber)
+            .orElseThrow {
+                ResourceNotFoundException(
+                    "Account",
+                    "Account Number",
+                    accountNumber.toString()
+                )
+            }
+
+        accountRepository.save(account.copy(communicationSw = true))
     }
 }

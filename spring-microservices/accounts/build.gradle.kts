@@ -38,6 +38,10 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("io.micrometer:micrometer-registry-prometheus:1.13.6")
     implementation("io.opentelemetry.javaagent:opentelemetry-javaagent:2.9.0")
+    implementation("org.springframework.cloud:spring-cloud-function-kotlin")
+    implementation("org.springframework.cloud:spring-cloud-stream")
+    implementation("org.springframework.cloud:spring-cloud-stream-binder-rabbit")
+
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

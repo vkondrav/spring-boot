@@ -232,9 +232,6 @@ services:
       - "5540:5540"
     networks:
       - backend
-    depends_on:
-      redis:
-        condition: service_healthy
     volumes:
       - redisinsight-data:/data
   #end Observability and Monitoring Services
@@ -570,6 +567,16 @@ services:
       edge:
         condition: service_healthy
 
+  messages:
+    image: "vkondrav/messages:v1"
+    container_name: messages
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - backend
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbitmq"
   #end Application Services
 
 networks:

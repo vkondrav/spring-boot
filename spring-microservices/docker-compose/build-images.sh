@@ -6,6 +6,7 @@
 (cd accounts && ./gradlew jibDockerBuild) &
 (cd loans && ./gradlew jibDockerBuild) &
 (cd cards && ./gradlew jibDockerBuild) &
+(cd messages && ./gradlew jibDockerBuild) &
 
 wait
 

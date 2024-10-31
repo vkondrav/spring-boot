@@ -17,6 +17,8 @@ data class Account(
     val accountType: String,
     @Column(name = "branch_address")
     val branchAddress: String,
+    @Column(name = "communication_sw")
+    val communicationSw: Boolean,
 ) : BaseEntity() {
 
     @Component
@@ -40,7 +42,8 @@ data class Account(
         operator fun invoke(customer: Customer) = Account(
             customerId = customer.customerId,
             accountType = accountTypes.random(),
-            branchAddress = addresses.random()
+            branchAddress = addresses.random(),
+            communicationSw = false,
         )
     }
 }
