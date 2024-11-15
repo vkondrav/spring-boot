@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: vkondrav/config
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8071
+
+env:
+  JAVA_TOOL_OPTIONS: -javaagent:/app/libs/opentelemetry-javaagent-2.9.0.jar
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+  OTEL_METRICS_EXPORTER: none
+  OTEL_SERVICE_NAME: config
+  SPRING_APPLICATION_NAME: config
+  SPRING_PROFILES_ACTIVE: default
+  SPRING_RABBITMQ_HOST: rabbitmq
+
+serviceAccount:
+  create: false
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: false

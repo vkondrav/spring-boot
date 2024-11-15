@@ -1,0 +1,12 @@
+apiVersion: v2
+name: edge-chart
+description: A Helm chart for Edge Service
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: eureka-chart
+    version: 0.1.0
+    repository: "file://../eureka-chart"
+    

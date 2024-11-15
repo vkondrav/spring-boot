@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.34.0 (HEAD)
+  labels:
+    io.kompose.service: edge
+  name: edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: edge
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.34.0 (HEAD)
+      labels:
+        io.kompose.service: edge
+    spec:
+      containers:
+        - env:
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka:8070/eureka/
+            - name: JAVA_TOOL_OPTIONS
+              value: -javaagent:/app/libs/opentelemetry-javaagent-2.9.0.jar
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://tempo:4317
+            - name: OTEL_METRICS_EXPORTER
+              value: none
+            - name: OTEL_SERVICE_NAME
+              value: edge
+            - name: SPRING_APPLICATION_NAME
+              value: edge
+            - name: SPRING_CONFIG_IMPORT
+              value: configserver:http://config:8071/
+            - name: SPRING_DATA_REDIS_CONNECT-TIMEOUT
+              value: 2s
+            - name: SPRING_DATA_REDIS_HOST
+              value: redis
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
+            - name: SPRING_DATA_REDIS_TIMEOUT
+              value: 1s
+            - name: SPRING_PROFILES_ACTIVE
+              value: default
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
+              value: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+          image: vkondrav/edge:v1
+#          livenessProbe:
+#            exec:
+#              command:
+#                - curl --fail --silent http://localhost:8072/actuator/health | grep UP || exit 1
+#            failureThreshold: 10
+#            initialDelaySeconds: 10
+#            periodSeconds: 10
+#            timeoutSeconds: 5
+          name: edge-service
+          ports:
+            - containerPort: 8072
+              protocol: TCP
+      restartPolicy: Always

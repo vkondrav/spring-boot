@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.34.0 (HEAD)
+  labels:
+    io.kompose.service: read
+  name: read
+spec:
+  ports:
+    - name: "3101"
+      port: 3101
+      targetPort: 3100
+    - name: "7946"
+      port: 7946
+      targetPort: 7946
+    - name: "9095"
+      port: 9095
+      targetPort: 9095
+  selector:
+    io.kompose.service: read

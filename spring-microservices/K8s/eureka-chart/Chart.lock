@@ -1,0 +1,6 @@
+dependencies:
+- name: config-chart
+  repository: file://../config-chart
+  version: 0.1.0
+digest: sha256:229a54a97ee336137553c211ecd254d95c337fa24cf9f878ffc23730fbcf0a90
+generated: "2024-11-14T12:08:30.785365-05:00"

@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  config.toml: |
+    profile = "default"
+
+    [default]
+      api_key = "50io1jyvnoy2rw4rzofbe4niwrf7gza0x9icrqfl7d223wgw0b"
+      workspace_id = "tm_CuZp9PcGnYLD"
+      workspace_mode = "inbound"
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: hookdeck
+  name: hookdeck-cm0

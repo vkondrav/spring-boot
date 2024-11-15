@@ -215,7 +215,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
       - ../observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     healthcheck:
       test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
@@ -233,7 +233,7 @@ services:
     networks:
       - backend
     volumes:
-      - redisinsight-data:/data
+      - redisinsight_data:/data
   #end Observability and Monitoring Services
 
   # Data Stores
@@ -263,7 +263,7 @@ services:
     networks:
       - backend
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - keycloak_data:/var/lib/postgresql/data
 
   minio:
     image: minio/minio
@@ -283,7 +283,7 @@ services:
     ports:
       - "9000"
     volumes:
-      - minio-data:/data
+      - minio_data:/data
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
       interval: 15s
@@ -587,7 +587,7 @@ volumes:
   accountsdb_data:
   cardsdb_data:
   loansdb_data:
-  redisinsight-data:
-  minio-data:
-  grafana-data:
-  postgres_data:
+  redisinsight_data:
+  minio_data:
+  grafana_data:
+  keycloak_data:

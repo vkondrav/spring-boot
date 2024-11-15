@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  alloy-config.yaml: "  discovery.docker \"micro_scrape\" {\n    host             = \"unix:///var/run/docker.sock\"\n    refresh_interval = \"5s\"\n  }\n    \n  discovery.relabel \"micro_scrape\" {\n    targets = []\n    \n    rule {\n    source_labels = [\"__meta_docker_container_name\"]\n    regex         = \"/(.*)\"\n    target_label  = \"container\"\n    }\n  }\n    \n  loki.source.docker \"micro_scrape\" {\n    host             = \"unix:///var/run/docker.sock\"\n    targets          = discovery.docker.micro_scrape.targets\n    forward_to       = [loki.write.default.receiver]\n    relabel_rules    = discovery.relabel.micro_scrape.rules\n    refresh_interval = \"5s\"\n  }\n    \n  loki.write \"default\" {\n    endpoint {\n    url       = \"http://gateway:3100/loki/api/v1/push\"\n    tenant_id = \"tenant1\"\n    }\n    external_labels = {}\n  }"
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: alloy
+  name: alloy-cm0

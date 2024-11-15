@@ -1,0 +1,29 @@
+replicaCount: 1
+
+image:
+  repository: vkondrav/eureka
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8070
+
+env:
+  JAVA_TOOL_OPTIONS: -javaagent:/app/libs/opentelemetry-javaagent-2.9.0.jar
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+  OTEL_METRICS_EXPORTER: none
+  OTEL_SERVICE_NAME: eureka
+  SPRING_APPLICATION_NAME: eureka
+  SPRING_CONFIG_IMPORT: configserver:http://config:8071/
+  SPRING_PROFILES_ACTIVE: default
+  SPRING_RABBITMQ_HOST: rabbitmq
+
+serviceAccount:
+  create: false
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: false

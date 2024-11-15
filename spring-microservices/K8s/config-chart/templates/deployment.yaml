@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    app: {{ .Release.Name }}-config
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-config
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-config
+    spec:
+      containers:
+          - name: config-service
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            ports:
+              - containerPort: {{ .Values.service.port }}
+            env:
+              - name: JAVA_TOOL_OPTIONS
+                value: {{ .Values.env.JAVA_TOOL_OPTIONS }}
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                value: {{ .Values.env.OTEL_EXPORTER_OTLP_ENDPOINT }}
+              - name: OTEL_METRICS_EXPORTER
+                value: {{ .Values.env.OTEL_METRICS_EXPORTER }}
+              - name: OTEL_SERVICE_NAME
+                value: {{ .Values.env.OTEL_SERVICE_NAME }}
+              - name: SPRING_APPLICATION_NAME
+                value: {{ .Values.env.SPRING_APPLICATION_NAME }}
+              - name: SPRING_PROFILES_ACTIVE
+                value: {{ .Values.env.SPRING_PROFILES_ACTIVE }}
+              - name: SPRING_RABBITMQ_HOST
+                value: {{ .Values.env.SPRING_RABBITMQ_HOST }}

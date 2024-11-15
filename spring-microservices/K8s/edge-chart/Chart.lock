@@ -1,0 +1,6 @@
+dependencies:
+- name: eureka-chart
+  repository: file://../eureka-chart
+  version: 0.1.0
+digest: sha256:98dfd42a8e32de12e452f6f13df1b25c34c05364d1cc8402ebf97c79ee1b1ecb
+generated: "2024-11-14T12:29:16.896062-05:00"

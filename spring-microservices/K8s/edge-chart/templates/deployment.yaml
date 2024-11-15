@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-edge
+  labels:
+    app: {{ .Release.Name }}-edge
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-edge
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-edge
+    spec:
+      containers:
+          - name: edge-service
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            ports:
+              - containerPort: {{ .Values.service.port }}
+            env:
+              - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                value: {{ .Values.env.EUREKA_CLIENT_SERVICEURL_DEFAULTZONE }}
+              - name: JAVA_TOOL_OPTIONS
+                value: {{ .Values.env.JAVA_TOOL_OPTIONS }}
+              - name: OTEL_EXPORTER_OTLP_ENDPOINT
+                value: {{ .Values.env.OTEL_EXPORTER_OTLP_ENDPOINT }}
+              - name: OTEL_METRICS_EXPORTER
+                value: {{ .Values.env.OTEL_METRICS_EXPORTER }}
+              - name: OTEL_SERVICE_NAME
+                value: {{ .Values.env.OTEL_SERVICE_NAME }}
+              - name: SPRING_APPLICATION_NAME
+                value: {{ .Values.env.SPRING_APPLICATION_NAME }}
+              - name: SPRING_CONFIG_IMPORT
+                value: {{ .Values.env.SPRING_CONFIG_IMPORT }}
+              - name: SPRING_PROFILES_ACTIVE
+                value: {{ .Values.env.SPRING_PROFILES_ACTIVE }}
+              - name: SPRING_RABBITMQ_HOST
+                value: {{ .Values.env.SPRING_RABBITMQ_HOST }}
+              - name: SPRING_DATA_REDIS_HOST
+                value: {{ .Values.env.SPRING_DATA_REDIS_HOST }}
+              # - name: SPRING_DATA_REDIS_PORT
+              #   value: {{ .Values.env.SPRING_DATA_REDIS_PORT }}
+              - name: SPRING_DATA_REDIS_TIMEOUT
+                value: {{ .Values.env.SPRING_DATA_REDIS_TIMEOUT }}
+              - name: SPRING_DATA_REDIS_CONNECT-TIMEOUT
+                value: {{ .Values.env.SPRING_DATA_REDIS_CONNECT_TIMEOUT }}
+              - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK
+                value: {{ .Values.env.SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK }}
+
+
+                

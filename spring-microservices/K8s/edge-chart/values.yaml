@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  repository: vkondrav/edge
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8071
+
+env:
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8070/eureka/
+  JAVA_TOOL_OPTIONS: -javaagent:/app/libs/opentelemetry-javaagent-2.9.0.jar
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+  OTEL_METRICS_EXPORTER: none
+  OTEL_SERVICE_NAME: edge
+  SPRING_APPLICATION_NAME: edge
+  SPRING_CONFIG_IMPORT: configserver:http://config:8071/
+  SPRING_PROFILES_ACTIVE: default
+  SPRING_RABBITMQ_HOST: rabbitmq
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: 6379
+  SPRING_DATA_REDIS_TIMEOUT: 1s
+  SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+
+serviceAccount:
+  create: false
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: false
